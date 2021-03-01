@@ -1,11 +1,12 @@
 package com.trp.coingecko
 
 import requests.{Request, Response}
+import geny.Readable
 
 class CoinGeckoAPI {
-  def get(endpoint: String): Response = {
+  def get(endpoint: String): Readable = {
     val apiURL = s"${CoinGeckoAPI.baseUrl}/$endpoint"
-    requests.get(apiURL)
+    requests.get.stream(apiURL)
   }
 }
 

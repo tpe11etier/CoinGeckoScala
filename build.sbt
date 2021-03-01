@@ -6,4 +6,6 @@ scalaVersion := "2.13.5"
 
 //idePackagePrefix := Some("com.trp.coingecko")
 
-libraryDependencies ++= Seq("com.lihaoyi" %% "requests" % "0.6.5")
+libraryDependencies ++= Seq("com.lihaoyi" %% "requests" % "0.6.5",
+  "com.lihaoyi" %% "upickle" % "0.9.5"
+)
