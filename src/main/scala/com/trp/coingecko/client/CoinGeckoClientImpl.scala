@@ -1,48 +1,102 @@
 package com.trp.coingecko.client
 
-import com.trp.coingecko.model.PingResponse
+import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket}
+import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
+import com.trp.coingecko.model.response.PingResponse
 import com.trp.coingecko.{CoinGeckoAPI, CoinGeckoAPIError, CoinGeckoClient}
-import requests.Response
-import upickle.default.{macroRW, ReadWriter => RW}
 import upickle.default._
-import ujson._
-import java.lang.Error
-import scala.util.{Failure, Success}
+
 
 class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
-  override def ping: Either[CoinGeckoAPIError, PingResponse] =
-    get[PingResponse](endpoint = "ping")
-
-//  def json: Readable = ???
-
-  def get[T](endpoint: String)(implicit reads: Reader[T]) = {
-    api.get(endpoint) match {
-      case value: Reader[T] =>
-        ujson.read(value).transform[T]
-      case _ => CoinGeckoAPIError.internalApiError(Some("Internal Api Error"))
+  override def ping: PingResponse =
+    get[PingResponse](endpoint = "ping", Map())
 
 
-//      case Left(json) =>
-//        ujson.read(json)
-//      case Left(json: Any) =>
-//        ujson.read(json).validate[CoinGeckoAPIError] match {
-//          case Success(value, _) => Left(value)
-//          case Failure(errors) =>
-//            Left(CoinGeckoAPIError.internalApiError(Some("Unknown Api Error")))
-//        }
+  override def getPrice(
+                         ids: List[String],
+                         vsCurrencies: List[String]
+                       ): CoinWithCurrencies =
+    getPrice(
+      ids,
+      vsCurrencies,
+      includeMarketCap = false,
+      include24hrVol = false,
+      include24hrChange = false,
+      includeLastUpdateAt = false
+    )
 
-//      case Right(json) =>
-//        read(json).validate[T] match {
-//          case Success(value, _) => Right(value)
-//          case Failure(errors) =>
-//            Left(
-//              CoinGeckoAPIError
-//                .internalApiError(Some(s"Invalid Response for $endpoint"))
-//            )
-//        }
-    }
+  override def getPrice(
+                         ids: List[String],
+                         vsCurrencies: List[String],
+                         includeMarketCap: Boolean,
+                         include24hrVol: Boolean,
+                         include24hrChange: Boolean,
+                         includeLastUpdateAt: Boolean
+                       ): CoinWithCurrencies = {
+    def buildQuery: Map[String, String] =
+      Map(
+        "ids" -> ids.mkString(","),
+        "vs_currencies" -> vsCurrencies.mkString(","),
+        "include_market_cap" -> includeMarketCap,
+        "include_24hr_vol" -> include24hrVol,
+        "include_24hr_change" -> include24hrChange,
+        "include_last_updated_at" -> includeLastUpdateAt
+      ).map(kv => (kv._1, kv._2.toString))
+
+    get[CoinWithCurrencies](endpoint = "simple/price", buildQuery)
+
   }
-}
 
+
+  def get[T: Reader](endpoint: String, params: Map[String, String]): T =
+    api.get(endpoint, params) match {
+      case json => read[T](json)
+    }
+
+  override def getSupportedVsCurrencies: List[String] =
+    get[List[String]]("simple/supported_vs_currencies", params = Map())
+
+  override def getCoinsList(includePlatform: Boolean): List[BaseCoin] = {
+    get[List[BaseCoin]](endpoint = "coins/list", Map())
+  }
+
+  override def getCoinMarkets(
+                               vsCurrency: String
+                             ): List[CoinMarket] =
+    getCoinMarkets(
+      vsCurrency,
+      ids = List.empty,
+      order = None,
+      perPage = None,
+      page = None,
+      sparkline = None,
+      priceChangePercentage = None
+    )
+
+  override def getCoinMarkets(
+                               vsCurrency: String,
+                               ids: List[String],
+                               order: Option[String],
+                               perPage: Option[Int],
+                               page: Option[Int],
+                               sparkline: Option[Boolean],
+                               priceChangePercentage: Option[String]
+                             ): List[CoinMarket] = {
+    def buildQuery: Map[String, String] =
+      Map(
+        "vs_currency" -> Some(vsCurrency),
+        "ids" -> ids.reduceLeftOption((left, right) => s"$left,$right"),
+        "order" -> order,
+        "per_page" -> perPage.map(_.toString),
+        "page" -> page.map(_.toString),
+        "sparkline" -> sparkline.map(_.toString),
+        "price_change_percentage" -> priceChangePercentage
+      ).filter(kv => kv._2.nonEmpty)
+        .map(kv => kv._1 -> kv._2.getOrElse(""))
+    println(buildQuery)
+    get[List[CoinMarket]](endpoint = "coins/markets", buildQuery)
+  }
+
+}
 
 
