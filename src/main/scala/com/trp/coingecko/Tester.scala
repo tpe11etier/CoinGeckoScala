@@ -9,5 +9,6 @@ object Tester extends App {
   println(client.getPrice(List("bitcoin"), List("usd"), includeMarketCap = true, include24hrVol = true, include24hrChange = true, includeLastUpdateAt = false))
   println(client.getSupportedVsCurrencies)
   println(client.getCoinMarkets("usd"))
-//  println(client.getCoinsList(false))
+  println(client.getCoinsList(false))
+  println(client.getExchanges)
 }

@@ -2,6 +2,7 @@ package com.trp.coingecko
 
 import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
+import com.trp.coingecko.model.exchanges.Exchange
 import com.trp.coingecko.model.response.PingResponse
 import requests.Response
 
@@ -40,5 +41,7 @@ trait CoinGeckoClient {
                       sparkline: Option[Boolean],
                       priceChangePercentage: Option[String]
                     ): List[CoinMarket]
+
+  def getExchanges: List[Exchange]
 
 }

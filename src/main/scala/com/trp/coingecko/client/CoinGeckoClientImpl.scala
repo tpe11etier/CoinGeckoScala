@@ -2,6 +2,7 @@ package com.trp.coingecko.client
 
 import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
+import com.trp.coingecko.model.exchanges.Exchange
 import com.trp.coingecko.model.response.PingResponse
 import com.trp.coingecko.{CoinGeckoAPI, CoinGeckoAPIError, CoinGeckoClient}
 import upickle.default._
@@ -11,6 +12,11 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
   override def ping: PingResponse =
     get[PingResponse](endpoint = "ping", Map())
 
+
+  def get[T: Reader](endpoint: String, params: Map[String, String]): T =
+    api.get(endpoint, params) match {
+      case json => read[T](json)
+    }
 
   override def getPrice(
                          ids: List[String],
@@ -47,11 +53,6 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
 
   }
 
-
-  def get[T: Reader](endpoint: String, params: Map[String, String]): T =
-    api.get(endpoint, params) match {
-      case json => read[T](json)
-    }
 
   override def getSupportedVsCurrencies: List[String] =
     get[List[String]]("simple/supported_vs_currencies", params = Map())
@@ -93,10 +94,13 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
         "price_change_percentage" -> priceChangePercentage
       ).filter(kv => kv._2.nonEmpty)
         .map(kv => kv._1 -> kv._2.getOrElse(""))
+
     println(buildQuery)
     get[List[CoinMarket]](endpoint = "coins/markets", buildQuery)
   }
 
+  override def getExchanges: List[Exchange] =
+    get[List[Exchange]](endpoint = "exchanges", Map())
 }
 
 
