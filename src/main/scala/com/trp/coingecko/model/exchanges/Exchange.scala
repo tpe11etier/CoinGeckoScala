@@ -11,10 +11,10 @@ case class Exchange(
                      url: String,
                      image: String,
                      has_trading_incentive: Boolean,
-                     trust_score: Option[Int],
-                     trust_score_rank: Option[Int],
+                     trust_score: Int,
+                     trust_score_rank: Int,
                      trade_volume_24h_btc: Double,
-                     trade_volume_24h_btc_normalized: Option[Double]
+                     trade_volume_24h_btc_normalized: Double
                    )
 
 object Exchange {

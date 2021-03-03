@@ -44,4 +44,8 @@ trait CoinGeckoClient {
 
   def getExchanges: List[Exchange]
 
+  def getCoinStatusUpdates(
+                          ids: List[String]
+                          ): Map[String,String]
+
 }

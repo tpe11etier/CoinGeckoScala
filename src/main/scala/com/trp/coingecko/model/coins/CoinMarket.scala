@@ -22,9 +22,13 @@ case class CoinMarket(
                        market_cap_change_percentage_24h: Double,
                        circulating_supply: Long,
                        total_supply: Long,
+                       max_supply: Long,
                        ath: Double,
                        ath_change_percentage: Double,
                        ath_date: String,
+                       atl: Double,
+                       atl_change_percentage: Double,
+                       atl_date: String,
                        roi: Roi,
                        last_updated: String
                      )
