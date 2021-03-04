@@ -47,6 +47,6 @@ trait CoinGeckoClient {
 
   def getCoinStatusUpdates(id: String): StatusUpdates
 
-//  def getCoinStatusUpdates(id: String): Map[String,ProjectUpdates]
+  def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates
 
 }

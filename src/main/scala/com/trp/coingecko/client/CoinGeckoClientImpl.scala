@@ -96,7 +96,6 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
       ).filter(kv => kv._2.nonEmpty)
         .map(kv => kv._1 -> kv._2.getOrElse(""))
 
-    println(buildQuery)
     get[List[CoinMarket]](endpoint = "coins/markets", buildQuery)
   }
 
@@ -104,8 +103,21 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[List[Exchange]](endpoint = "exchanges", Map())
 
   override def getCoinStatusUpdates(id: String): StatusUpdates = {
-    get[StatusUpdates](endpoint = "coins/cardano/status_updates", Map())
+    get[StatusUpdates](endpoint = s"coins/${id}/status_updates", Map())
   }
+
+  override def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates = {
+    def buildQuery: Map[String,String] =
+      Map(
+        "per_page" -> perPage.map(_.toString),
+        "page" -> page.map(_.toString)
+      ).filter(kv => kv._2.nonEmpty)
+        .map(kv => kv._1 -> kv._2.getOrElse(""))
+
+    get[StatusUpdates](endpoint = s"coins/${id}/status_updates", buildQuery)
+  }
+
+
 }
 
 
