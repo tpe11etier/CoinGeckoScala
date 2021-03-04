@@ -2,6 +2,7 @@ package com.trp.coingecko
 
 import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
+import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
 import com.trp.coingecko.model.response.PingResponse
 import requests.Response
@@ -44,8 +45,8 @@ trait CoinGeckoClient {
 
   def getExchanges: List[Exchange]
 
-  def getCoinStatusUpdates(
-                          ids: List[String]
-                          ): Map[String,String]
+  def getCoinStatusUpdates(id: String): StatusUpdates
+
+//  def getCoinStatusUpdates(id: String): Map[String,ProjectUpdates]
 
 }

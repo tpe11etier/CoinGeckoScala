@@ -10,5 +10,6 @@ object Tester extends App {
 //  println(client.getSupportedVsCurrencies)
 //  println(client.getCoinMarkets("usd"))
 //  println(client.getCoinsList(false))
-  println(client.getExchanges)
+//  println(client.getExchanges)
+  println(client.getCoinStatusUpdates("cardano"))
 }

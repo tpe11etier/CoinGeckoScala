@@ -9,5 +9,5 @@ case class Image(
                 )
 
 object Image {
-  implicit val imageReads: Reader[Image] = macroRW[Image]
+  implicit val imageReads: ReadWriter[Image] = macroRW[Image]
 }

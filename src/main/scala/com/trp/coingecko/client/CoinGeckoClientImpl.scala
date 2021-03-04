@@ -2,6 +2,7 @@ package com.trp.coingecko.client
 
 import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
+import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
 import com.trp.coingecko.model.response.PingResponse
 import com.trp.coingecko.{CoinGeckoAPI, CoinGeckoAPIError, CoinGeckoClient}
@@ -101,6 +102,10 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
 
   override def getExchanges: List[Exchange] =
     get[List[Exchange]](endpoint = "exchanges", Map())
+
+  override def getCoinStatusUpdates(id: String): StatusUpdates = {
+    get[StatusUpdates](endpoint = "coins/cardano/status_updates", Map())
+  }
 }
 
 
