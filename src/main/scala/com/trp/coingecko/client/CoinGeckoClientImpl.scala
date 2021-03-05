@@ -1,6 +1,6 @@
 package com.trp.coingecko.client
 
-import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket}
+import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket, CoinTicker}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
@@ -107,7 +107,7 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
   }
 
   override def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates = {
-    def buildQuery: Map[String,String] =
+    def buildQuery: Map[String, String] =
       Map(
         "per_page" -> perPage.map(_.toString),
         "page" -> page.map(_.toString)
@@ -117,7 +117,30 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[StatusUpdates](endpoint = s"coins/${id}/status_updates", buildQuery)
   }
 
+  override def getCoinTickers(id: String): CoinTicker = {
+    get[CoinTicker](endpoint = s"coins/${id}/tickers", Map())
+  }
 
+  override def getCoinTickers(
+                               id: String,
+                               exchangeIds: List[String],
+//                               includeExchangeLogo: Boolean,
+                               page: Option[Int],
+                               order: Option[String],
+                               depth: Option[String]): CoinTicker = {
+    def buildQuery: Map[String, String] =
+      Map(
+//        "id" -> id,
+        "exchange_ids" -> exchangeIds.reduceLeftOption((left, right) => s"$left,$right")
+//        "include_exchange_logo" -> order,
+//        "page" -> page.map(_.toString),
+//        "order" -> order,
+//        "depth" -> depth
+      ).filter(kv => kv._2.nonEmpty)
+        .map(kv => kv._1 -> kv._2.getOrElse(""))
+
+    get[CoinTicker](endpoint = s"coins/$id/tickers", buildQuery)
+  }
 }
 
 
