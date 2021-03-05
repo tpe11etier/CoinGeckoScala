@@ -117,25 +117,19 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[StatusUpdates](endpoint = s"coins/${id}/status_updates", buildQuery)
   }
 
-  override def getCoinTickers(id: String): CoinTicker = {
-    get[CoinTicker](endpoint = s"coins/${id}/tickers", Map())
+  override def getCoinTickerById(id: String): CoinTicker = {
+    getCoinTickerById(id, exchangeIds = List.empty, page = None, order = None, depth = None)
   }
 
-  override def getCoinTickers(
-                               id: String,
-                               exchangeIds: List[String],
-//                               includeExchangeLogo: Boolean,
-                               page: Option[Int],
-                               order: Option[String],
-                               depth: Option[String]): CoinTicker = {
+  override def getCoinTickerById(
+                                  id: String,
+                                  exchangeIds: List[String],
+                                  page: Option[Int],
+                                  order: Option[String],
+                                  depth: Option[String]): CoinTicker = {
     def buildQuery: Map[String, String] =
       Map(
-//        "id" -> id,
         "exchange_ids" -> exchangeIds.reduceLeftOption((left, right) => s"$left,$right")
-//        "include_exchange_logo" -> order,
-//        "page" -> page.map(_.toString),
-//        "order" -> order,
-//        "depth" -> depth
       ).filter(kv => kv._2.nonEmpty)
         .map(kv => kv._1 -> kv._2.getOrElse(""))
 

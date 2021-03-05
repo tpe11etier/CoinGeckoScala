@@ -8,8 +8,8 @@ case class Ticker(
                    market: Market,
                    last: Double,
                    volume: Double,
-                   converted_last: Map[String, String],
-                   converted_volume: Map[String, String],
+                   converted_last: Map[String, Int],
+                   converted_volume: Map[String, Int],
                    trust_score: String,
                    bid_ask_spread_percentage: Double,
                    timestamp: String,
@@ -19,8 +19,7 @@ case class Ticker(
                    is_stale: Boolean,
                    trade_url: String,
                    token_info_url: String,
-                   coin_id: String,
-                   target_coin_id: String
+                   coin_id: String
                  )
 
 object Ticker {

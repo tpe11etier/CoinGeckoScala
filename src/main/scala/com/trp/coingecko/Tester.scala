@@ -12,6 +12,6 @@ object Tester extends App {
 //  println(client.getCoinsList(false))
 //  println(client.getExchanges)
 //  println(client.getCoinStatusUpdates("cardano",Some(2), Some(2)))
-    println(client.getCoinTickers("bitcoin"))
+    println(client.getCoinTickerById("bitcoin"))
 
 }

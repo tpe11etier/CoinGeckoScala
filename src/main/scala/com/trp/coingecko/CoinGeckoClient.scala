@@ -50,12 +50,11 @@ trait CoinGeckoClient {
 
   def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates
 
-  def getCoinTickers(id: String): CoinTicker
+  def getCoinTickerById(id: String): CoinTicker
 
-  def getCoinTickers(
+  def getCoinTickerById(
                       id: String,
                       exchangeIds: List[String],
-                      includeExchangeLogo: Boolean,
                       page: Option[Int],
                       order: Option[String],
                       depth: Option[String]
