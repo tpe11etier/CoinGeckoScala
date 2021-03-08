@@ -1,6 +1,6 @@
 package com.trp.coingecko
 
-import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket, CoinTicker}
+import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket, CoinTicker, MarketChart}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
@@ -61,4 +61,10 @@ trait CoinGeckoClient {
                     ): CoinTicker
 
 
+  def getCoinMarketChartById(
+                            id: String,
+                            vsCurrency: String,
+                            days: Int
+//                            interval: Option[String]
+                            ): MarketChart
 }

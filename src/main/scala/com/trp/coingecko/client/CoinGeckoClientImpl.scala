@@ -1,6 +1,6 @@
 package com.trp.coingecko.client
 
-import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket, CoinTicker}
+import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket, CoinTicker, MarketChart}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
@@ -134,6 +134,18 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
         .map(kv => kv._1 -> kv._2.getOrElse(""))
 
     get[CoinTicker](endpoint = s"coins/$id/tickers", buildQuery)
+  }
+
+  override def getCoinMarketChartById(id: String, vsCurrency: String, days: Int): MarketChart = {
+    def buildQuery =
+      Map(
+        "vs_currency" -> vsCurrency,
+        "days" -> days.toString
+        //        "interval" -> interval.map(_.toString)
+      )
+
+    get[MarketChart](endpoint = s"coins/${id}/market_chart", buildQuery)
+
   }
 }
 

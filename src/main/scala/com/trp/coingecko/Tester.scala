@@ -4,7 +4,7 @@ import com.trp.coingecko.client.CoinGeckoClientImpl
 
 object Tester extends App {
   val client = new CoinGeckoClientImpl(new CoinGeckoAPI())
-  println(client.ping)
+//  println(client.ping)
 //  println(client.getPrice(List("bitcoin"), List("eth", "usd")))
 //  println(client.getPrice(List("bitcoin"), List("usd"), includeMarketCap = true, include24hrVol = true, include24hrChange = true, includeLastUpdateAt = false))
 //  println(client.getSupportedVsCurrencies)
@@ -12,6 +12,7 @@ object Tester extends App {
 //  println(client.getCoinsList(false))
 //  println(client.getExchanges)
 //  println(client.getCoinStatusUpdates("cardano",Some(2), Some(2)))
-    println(client.getCoinTickerById("bitcoin"))
+//    println(client.getCoinTickerById("bitcoin"))
+    println(client.getCoinMarketChartById("bitcoin", "usd",1))
 
 }
