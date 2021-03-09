@@ -2,12 +2,10 @@ package com.trp.coingecko.model.coins
 
 import upickle.default._
 
-
-
 case class MarketChart(
-                        prices: List[List[Int]],
-                        market_caps: List[List[Int]],
-                        total_volumes: List[List[Int]]
+                        prices: List[List[Long]],
+                        market_caps: List[List[Long]],
+                        total_volumes: List[List[Long]]
                       )
 
 object MarketChart {

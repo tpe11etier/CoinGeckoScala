@@ -25,6 +25,22 @@ trait CoinGeckoClient {
                 includeLastUpdateAt: Boolean
               ): CoinWithCurrencies
 
+  def getTokenPrice(
+                     id: String,
+                     contractAddress: String,
+                     vsCurrencies: List[String],
+                   ): CoinWithCurrencies
+
+  def getTokenPrice(
+                     id: String,
+                     contractAddress: String,
+                     vsCurrencies: List[String],
+                     includeMarketCap: Boolean,
+                     include24hrVol: Boolean,
+                     include24hrChange: Boolean,
+                     includeLastUpdateAt: Boolean
+                   ): CoinWithCurrencies
+
   def getSupportedVsCurrencies: List[String]
 
   def getCoinsList(
@@ -44,6 +60,18 @@ trait CoinGeckoClient {
                       priceChangePercentage: Option[String]
                     ): List[CoinMarket]
 
+  def getCoinsById(id: String)
+
+  def getCoinsById(
+                    id: String,
+                    localization: String,
+                    tickers: Boolean,
+                    market_data: Boolean,
+                    community_data: Boolean,
+                    developer_data: Boolean,
+                    sparkline: Boolean
+                  )
+
   def getExchanges: List[Exchange]
 
   def getCoinStatusUpdates(id: String): StatusUpdates
@@ -53,18 +81,26 @@ trait CoinGeckoClient {
   def getCoinTickerById(id: String): CoinTicker
 
   def getCoinTickerById(
-                      id: String,
-                      exchangeIds: List[String],
-                      page: Option[Int],
-                      order: Option[String],
-                      depth: Option[String]
-                    ): CoinTicker
+                         id: String,
+                         exchangeIds: List[String],
+                         page: Option[Int],
+                         order: Option[String],
+                         depth: Option[String]
+                       ): CoinTicker
 
 
   def getCoinMarketChartById(
-                            id: String,
-                            vsCurrency: String,
-                            days: Int
-//                            interval: Option[String]
+                              id: String,
+                              vsCurrency: String,
+                              days: Int
                             ): MarketChart
+
+  def getCoinMarketChartByRange(
+                                 id: String,
+                                 vsCurrency: String,
+                                 from: Long,
+                                 to: Long
+                               ): MarketChart
+
+
 }
