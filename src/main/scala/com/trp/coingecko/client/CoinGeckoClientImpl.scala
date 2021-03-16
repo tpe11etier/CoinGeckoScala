@@ -1,6 +1,6 @@
 package com.trp.coingecko.client
 
-import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket, CoinTicker, MarketChart}
+import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
@@ -102,7 +102,9 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
   /*
     Simple API Requests End
   */
+
   /* ============================================================================= */
+
   /*
    Coins API Requests Start
   */
@@ -148,23 +150,10 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[List[CoinMarket]](endpoint = "coins/markets", buildQuery)
   }
 
-  override def getExchanges: List[Exchange] =
-    get[List[Exchange]](endpoint = "exchanges", Map())
 
-  override def getCoinStatusUpdates(id: String): StatusUpdates = {
-    get[StatusUpdates](endpoint = s"coins/${id}/status_updates", Map())
-  }
+  override def getCoinsById(id: String): Unit = ???
 
-  override def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates = {
-    def buildQuery: Map[String, String] =
-      Map(
-        "per_page" -> perPage.map(_.toString),
-        "page" -> page.map(_.toString)
-      ).filter(kv => kv._2.nonEmpty)
-        .map(kv => kv._1 -> kv._2.getOrElse(""))
-
-    get[StatusUpdates](endpoint = s"coins/${id}/status_updates", buildQuery)
-  }
+  override def getCoinsById(id: String, localization: String, tickers: Boolean, market_data: Boolean, community_data: Boolean, developer_data: Boolean, sparkline: Boolean): Unit = ???
 
   override def getCoinTickerById(id: String): CoinTicker = {
     getCoinTickerById(id, exchangeIds = List.empty, page = None, order = None, depth = None)
@@ -183,6 +172,16 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
         .map(kv => kv._1 -> kv._2.getOrElse(""))
 
     get[CoinTicker](endpoint = s"coins/$id/tickers", buildQuery)
+  }
+
+
+  override def getCoinHistoryById(id: String, date: String): CoinHistory = {
+    def buildQuery =
+      Map(
+        "date" -> date
+//        "localization" -> localization
+      )
+    get[CoinHistory](endpoint = s"coins/${id}/history", buildQuery)
   }
 
   override def getCoinMarketChartById(id: String, vsCurrency: String, days: Int): MarketChart = {
@@ -207,6 +206,28 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[MarketChart](endpoint = s"coins/${id}/market_chart/range", buildQuery)
 
   }
+
+  override def getCoinStatusUpdates(id: String): StatusUpdates = {
+    get[StatusUpdates](endpoint = s"coins/${id}/status_updates", Map())
+  }
+
+  override def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates = {
+    def buildQuery: Map[String, String] =
+      Map(
+        "per_page" -> perPage.map(_.toString),
+        "page" -> page.map(_.toString)
+      ).filter(kv => kv._2.nonEmpty)
+        .map(kv => kv._1 -> kv._2.getOrElse(""))
+
+    get[StatusUpdates](endpoint = s"coins/${id}/status_updates", buildQuery)
+  }
+
+  /*
+ Coins API Requests End
+*/
+
+  override def getExchanges: List[Exchange] =
+    get[List[Exchange]](endpoint = "exchanges", Map())
 }
 
 

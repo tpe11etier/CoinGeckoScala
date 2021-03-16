@@ -1,6 +1,6 @@
 package com.trp.coingecko
 
-import com.trp.coingecko.model.coins.{BaseCoin, CoinMarket, CoinTicker, MarketChart}
+import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
@@ -72,12 +72,6 @@ trait CoinGeckoClient {
                     sparkline: Boolean
                   )
 
-  def getExchanges: List[Exchange]
-
-  def getCoinStatusUpdates(id: String): StatusUpdates
-
-  def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates
-
   def getCoinTickerById(id: String): CoinTicker
 
   def getCoinTickerById(
@@ -88,6 +82,11 @@ trait CoinGeckoClient {
                          depth: Option[String]
                        ): CoinTicker
 
+  def getCoinHistoryById(
+      id: String,
+      date: String
+//      localization: String
+  ): CoinHistory
 
   def getCoinMarketChartById(
                               id: String,
@@ -101,6 +100,14 @@ trait CoinGeckoClient {
                                  from: Long,
                                  to: Long
                                ): MarketChart
+
+
+  def getCoinStatusUpdates(id: String): StatusUpdates
+
+  def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates
+
+
+  def getExchanges: List[Exchange]
 
 
 }

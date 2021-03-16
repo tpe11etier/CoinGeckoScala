@@ -4,8 +4,8 @@ import upickle.default._
 
 case class Image(
                   thumb: String,
-                  small: String,
-                  large: String
+                  small: String
+//                  large: String
                 )
 
 object Image {
