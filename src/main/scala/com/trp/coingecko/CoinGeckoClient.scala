@@ -106,6 +106,7 @@ trait CoinGeckoClient {
 
   def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates
 
+  def getCoinOHLC(id: String, vs_currency: String, days: Int): List[List[Long]]
 
   def getExchanges: List[Exchange]
 

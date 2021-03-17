@@ -179,8 +179,9 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     def buildQuery =
       Map(
         "date" -> date
-//        "localization" -> localization
+        //        "localization" -> localization
       )
+
     get[CoinHistory](endpoint = s"coins/${id}/history", buildQuery)
   }
 
@@ -222,9 +223,20 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[StatusUpdates](endpoint = s"coins/${id}/status_updates", buildQuery)
   }
 
+  override def getCoinOHLC(id: String, vs_currency: String, days: Int): List[List[Long]] = {
+    def buildQuery =
+      Map(
+        "vs_currency" -> vs_currency,
+        "days" -> days.toString
+      )
+    get[List[List[Long]]](endpoint = s"coins/${id}/ohlc", buildQuery)
+  }
+
+
   /*
  Coins API Requests End
 */
+
 
   override def getExchanges: List[Exchange] =
     get[List[Exchange]](endpoint = "exchanges", Map())
