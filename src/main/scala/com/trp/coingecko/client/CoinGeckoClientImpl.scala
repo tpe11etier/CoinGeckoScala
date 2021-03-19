@@ -4,6 +4,7 @@ import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTic
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
+import com.trp.coingecko.model.finance.Platform
 import com.trp.coingecko.model.response.PingResponse
 import com.trp.coingecko.{CoinGeckoAPI, CoinGeckoAPIError, CoinGeckoClient}
 import upickle.default._
@@ -229,13 +230,38 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
         "vs_currency" -> vs_currency,
         "days" -> days.toString
       )
+
     get[List[List[Long]]](endpoint = s"coins/${id}/ohlc", buildQuery)
   }
 
 
   /*
- Coins API Requests End
-*/
+    Coins API Requests End
+  */
+
+  /* ============================================================================= */
+
+  /*
+    Finance API Requests Start
+  */
+
+  override def getFinancePlatforms: List[Platform] = {
+    getFinancePlatforms(perPage = None, page = None)
+  }
+
+  override def getFinancePlatforms(perPage: Option[Int], page: Option[String]): List[Platform] = {
+    def buildQuery =
+      Map(
+        "per_page" -> perPage.toString,
+        "page" -> page.toString
+      )
+    get[List[Platform]](endpoint = s"finance_platforms", buildQuery)
+  }
+
+
+  /*
+    Finance API Requests End
+  */
 
 
   override def getExchanges: List[Exchange] =

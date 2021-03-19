@@ -4,6 +4,7 @@ import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTic
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.Exchange
+import com.trp.coingecko.model.finance.Platform
 import com.trp.coingecko.model.response.PingResponse
 import requests.Response
 import sun.security.krb5.internal.Ticket
@@ -107,6 +108,10 @@ trait CoinGeckoClient {
   def getCoinStatusUpdates(id: String, page: Option[Int], perPage: Option[Int]): StatusUpdates
 
   def getCoinOHLC(id: String, vs_currency: String, days: Int): List[List[Long]]
+
+  def getFinancePlatforms: List[Platform]
+
+  def getFinancePlatforms(perPage: Option[Int], page: Option[String]): List[Platform]
 
   def getExchanges: List[Exchange]
 
