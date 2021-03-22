@@ -3,7 +3,7 @@ package com.trp.coingecko
 import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
-import com.trp.coingecko.model.exchanges.Exchange
+import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, RootInterface}
 import com.trp.coingecko.model.finance.Platform
 import com.trp.coingecko.model.response.PingResponse
 import requests.Response
@@ -115,5 +115,16 @@ trait CoinGeckoClient {
 
   def getExchanges: List[Exchange]
 
+  def getExchangesList: List[BaseExchange]
+
+  def getExchangeById(id: String): RootInterface
+
+  def getExchangeTickersById(id: String): RootInterface
+
+  def getExchangeTickersById(id: String, coin_ids: List[String], page: Option[Int], depth: Option[String], order: Option[String]): RootInterface
+
+  def getExchangeStatusUpdatesById(id: String): StatusUpdates
+
+  def getExchangeStatusUpdatesById(id: String, perPage: Option[Int], page: Option[Int]): StatusUpdates
 
 }

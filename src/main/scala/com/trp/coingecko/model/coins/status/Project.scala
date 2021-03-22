@@ -8,7 +8,7 @@ case class Project(
                     `type`: String,
                     id: String,
                     name: String,
-                    symbol: String,
+//                    symbol: String,
                     image: Image
                   )
 

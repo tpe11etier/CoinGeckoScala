@@ -3,7 +3,7 @@ package com.trp.coingecko.client
 import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
-import com.trp.coingecko.model.exchanges.Exchange
+import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, RootInterface}
 import com.trp.coingecko.model.finance.Platform
 import com.trp.coingecko.model.response.PingResponse
 import com.trp.coingecko.{CoinGeckoAPI, CoinGeckoAPIError, CoinGeckoClient}
@@ -255,6 +255,7 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
         "per_page" -> perPage.toString,
         "page" -> page.toString
       )
+
     get[List[Platform]](endpoint = s"finance_platforms", buildQuery)
   }
 
@@ -266,6 +267,53 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
 
   override def getExchanges: List[Exchange] =
     get[List[Exchange]](endpoint = "exchanges", Map())
+
+  override def getExchangesList: List[BaseExchange] = {
+    get[List[BaseExchange]](endpoint = "exchanges/list", Map())
+
+  }
+
+  override def getExchangeById(id: String): RootInterface = {
+    get[RootInterface](endpoint = s"exchanges/${id}", Map())
+
+  }
+
+  override def getExchangeTickersById(id: String): RootInterface = {
+    getExchangeTickersById(id, coin_ids = List.empty, page = None, depth = None, order = None)
+  }
+
+  override def getExchangeTickersById(id: String, coin_ids: List[String], page: Option[Int], depth: Option[String], order: Option[String]): RootInterface = {
+    def buildQuery: Map[String, String] =
+      Map(
+        "coin_ids" -> coin_ids.reduceLeftOption((left, right) => s"$left,$right"),
+        "page" -> page.map(_.toString),
+        "depth" -> depth.map(_.toString),
+        "order" -> order.map(_.toString)
+      ).filter(kv => kv._2.nonEmpty)
+        .map(kv => kv._1 -> kv._2.getOrElse(""))
+
+    get[RootInterface](endpoint = s"exchanges/${id}/tickers", buildQuery)
+
+
+  }
+
+  override def getExchangeStatusUpdatesById(id: String): StatusUpdates = {
+    getExchangeStatusUpdatesById(id, perPage = None, page = None)
+  }
+
+  override def getExchangeStatusUpdatesById(id: String, perPage: Option[Int], page: Option[Int]): StatusUpdates = {
+    def buildQuery: Map[String, String] = {
+      Map(
+        "per_page" -> perPage.map(_.toString),
+        "page" -> page.map(_.toString)
+      ).filter(kv => kv._2.nonEmpty)
+        .map(kv => kv._1 -> kv._2.getOrElse(""))
+
+    }
+
+    get[StatusUpdates](endpoint = s"exchanges/${id}/status_updates", buildQuery)
+
+  }
 }
 
 
