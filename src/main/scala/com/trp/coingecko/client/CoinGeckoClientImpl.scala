@@ -3,7 +3,7 @@ package com.trp.coingecko.client
 import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
-import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, RootInterface}
+import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, RootInterface, VolumeChart}
 import com.trp.coingecko.model.finance.Platform
 import com.trp.coingecko.model.response.PingResponse
 import com.trp.coingecko.{CoinGeckoAPI, CoinGeckoAPIError, CoinGeckoClient}
@@ -264,6 +264,9 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     Finance API Requests End
   */
 
+  /*
+    Exchange API Requests Start
+  */
 
   override def getExchanges: List[Exchange] =
     get[List[Exchange]](endpoint = "exchanges", Map())
@@ -314,6 +317,20 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[StatusUpdates](endpoint = s"exchanges/${id}/status_updates", buildQuery)
 
   }
+
+  def getExchangeVolumeChart(id: String, days: Int): List[Seq[VolumeChart]] = {
+    def buildQuery =
+      Map(
+        "days" -> days.toString
+      )
+    get[List[Seq[VolumeChart]]](endpoint = s"exchanges/${id}/volume_chart", buildQuery)
+  }
+
+  /*
+    Exchange API Requests End
+  */
+
+
 }
 
 
