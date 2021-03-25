@@ -1,22 +1,21 @@
 package com.trp.coingecko.model.exchanges
 
+import cats.derived.auto.iterable.kittensMkIterable
 import upickle.default._
 
 case class VolumeChart(
-                        vcd: VolumeChartDate,
-                        vca: VolumeChartAmount
+                        vcd: Int,
+                        vca: String
                       )
 
-case class VolumeChartDate(
-                            vcd: Double
-                          )
-
-case class VolumeChartAmount(
-                              vca: Double
-                            )
 
 object VolumeChart {
-  implicit val readsVolumeChart: ReadWriter[VolumeChart] = macroRW[VolumeChart]
-  implicit val readsVolumeChartDate: ReadWriter[VolumeChartDate] = macroRW[VolumeChartDate]
-  implicit val readsVolumeChartAmount: ReadWriter[VolumeChartAmount] = macroRW[VolumeChartAmount]
+    implicit val readsVolumeChart: ReadWriter[VolumeChart] = macroRW[VolumeChart]
+
+
+
+
+
+  //  val foo: VolumeChart = readsVolumeChart.foldLeft(readsVolumeChart: Any){case (r, v) => r.asInstanceOf[Function[Any, _]](v) }.asInstanceOf[VolumeChart]
+
 }

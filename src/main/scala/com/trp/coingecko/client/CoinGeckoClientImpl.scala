@@ -318,12 +318,12 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
 
   }
 
-  def getExchangeVolumeChart(id: String, days: Int): List[Seq[VolumeChart]] = {
+  def getExchangeVolumeChart(id: String, days: Int): List[List[Double]] = {
     def buildQuery =
       Map(
         "days" -> days.toString
       )
-    get[List[Seq[VolumeChart]]](endpoint = s"exchanges/${id}/volume_chart", buildQuery)
+    get[List[List[Double]]](endpoint = s"exchanges/${id}/volume_chart", buildQuery)
   }
 
   /*
