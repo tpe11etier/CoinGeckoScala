@@ -1,6 +1,6 @@
 package com.trp.coingecko.client
 
-import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart}
+import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart, MarketIndex}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, RootInterface, VolumeChart}
@@ -242,29 +242,6 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
   /* ============================================================================= */
 
   /*
-    Finance API Requests Start
-  */
-
-  override def getFinancePlatforms: List[Platform] = {
-    getFinancePlatforms(perPage = None, page = None)
-  }
-
-  override def getFinancePlatforms(perPage: Option[Int], page: Option[String]): List[Platform] = {
-    def buildQuery =
-      Map(
-        "per_page" -> perPage.toString,
-        "page" -> page.toString
-      )
-
-    get[List[Platform]](endpoint = s"finance_platforms", buildQuery)
-  }
-
-
-  /*
-    Finance API Requests End
-  */
-
-  /*
     Exchange API Requests Start
   */
 
@@ -318,19 +295,68 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
 
   }
 
-  def getExchangeVolumeChart(id: String, days: Int): List[(Long,Double)] = {
+  def getExchangeVolumeChart(id: String, days: Int): List[(Long, Double)] = {
     def buildQuery =
       Map(
         "days" -> days.toString
       )
-    get[List[(Long,Double)]](endpoint = s"exchanges/${id}/volume_chart", buildQuery)
+
+    get[List[(Long, Double)]](endpoint = s"exchanges/${id}/volume_chart", buildQuery)
   }
 
   /*
     Exchange API Requests End
   */
 
+  /* ============================================================================= */
 
+  /*
+    Finance API Requests Start
+  */
+
+  override def getFinancePlatforms: List[Platform] = {
+    getFinancePlatforms(perPage = None, page = None)
+  }
+
+  override def getFinancePlatforms(perPage: Option[Int], page: Option[String]): List[Platform] = {
+    def buildQuery =
+      Map(
+        "per_page" -> perPage.toString,
+        "page" -> page.toString
+      )
+
+    get[List[Platform]](endpoint = s"finance_platforms", buildQuery)
+  }
+
+  /*
+    Finance API Requests End
+  */
+
+   /* ============================================================================= */
+
+  /*
+    Index API Requests End
+  */
+
+  override def getMarketIndexes: List[MarketIndex] = {
+    getMarketIndexes(None, None)
+  }
+
+  override def getMarketIndexes(perPage: Option[Int], page: Option[Int]): List[MarketIndex] = {
+    def buildQuery =
+      Map(
+        "per_page" -> perPage.map(_.toString),
+        "page" -> page.map(_.toString)
+      ).filter(kv => kv._2.nonEmpty)
+          .map(kv => kv._1 -> kv._2.getOrElse(""))
+
+    get[List[MarketIndex]](endpoint = "indexes",buildQuery)
+  }
+
+
+  /*
+    Index API Requests End
+  */
 }
 
 

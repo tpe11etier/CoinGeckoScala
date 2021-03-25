@@ -1,6 +1,6 @@
 package com.trp.coingecko
 
-import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart}
+import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart, MarketIndex}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
 import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, RootInterface, VolumeChart}
@@ -84,10 +84,10 @@ trait CoinGeckoClient {
                        ): CoinTicker
 
   def getCoinHistoryById(
-      id: String,
-      date: String
-//      localization: String
-  ): CoinHistory
+                          id: String,
+                          date: String
+                          //      localization: String
+                        ): CoinHistory
 
   def getCoinMarketChartById(
                               id: String,
@@ -109,10 +109,6 @@ trait CoinGeckoClient {
 
   def getCoinOHLC(id: String, vs_currency: String, days: Int): List[List[Long]]
 
-  def getFinancePlatforms: List[Platform]
-
-  def getFinancePlatforms(perPage: Option[Int], page: Option[String]): List[Platform]
-
   def getExchanges: List[Exchange]
 
   def getExchangesList: List[BaseExchange]
@@ -127,5 +123,13 @@ trait CoinGeckoClient {
 
   def getExchangeStatusUpdatesById(id: String, perPage: Option[Int], page: Option[Int]): StatusUpdates
 
-  def getExchangeVolumeChart(id: String, days: Int): List[(Long,Double)]
+  def getExchangeVolumeChart(id: String, days: Int): List[(Long, Double)]
+
+  def getFinancePlatforms: List[Platform]
+
+  def getFinancePlatforms(perPage: Option[Int], page: Option[String]): List[Platform]
+
+  def getMarketIndexes: List[MarketIndex]
+
+  def getMarketIndexes(perPage: Option[Int], page: Option[Int]): List[MarketIndex]
 }

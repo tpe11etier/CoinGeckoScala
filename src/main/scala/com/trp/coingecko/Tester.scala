@@ -23,7 +23,8 @@ object Tester extends App {
   //  println(client.getExchangeById("vitex"))
   //  println(client.getExchangeTickersById("vitex"))
   //  println(client.getExchangeStatusUpdatesById("binance"))
-  println(client.getExchangeVolumeChart("binance", 11))
+//  println(client.getExchangeVolumeChart("binance", 11))
+  println(client.getMarketIndexes(Some(1),Some(2)))
 
 }
 
