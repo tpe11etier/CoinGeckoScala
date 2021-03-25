@@ -127,5 +127,5 @@ trait CoinGeckoClient {
 
   def getExchangeStatusUpdatesById(id: String, perPage: Option[Int], page: Option[Int]): StatusUpdates
 
-  def getExchangeVolumeChart(id: String, days: Int): List[List[Double]]
+  def getExchangeVolumeChart(id: String, days: Int): List[(Long,Double)]
 }
