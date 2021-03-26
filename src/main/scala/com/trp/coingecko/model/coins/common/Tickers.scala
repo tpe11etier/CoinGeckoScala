@@ -2,7 +2,7 @@ package com.trp.coingecko.model.coins.common
 
 import upickle.default._
 
-case class Ticker(
+case class Tickers(
                    base: String,
                    target: String,
                    market: Market,
@@ -22,6 +22,6 @@ case class Ticker(
                    coin_id: String
                  )
 
-object Ticker {
-  implicit val readsTicker: ReadWriter[Ticker] = macroRW[Ticker]
+object Tickers {
+  implicit val readsTicker: ReadWriter[Tickers] = macroRW[Tickers]
 }

@@ -3,7 +3,7 @@ package com.trp.coingecko.client
 import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart, MarketIndex}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
-import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, RootInterface, VolumeChart}
+import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, VolumeChart}
 import com.trp.coingecko.model.finance.Platform
 import com.trp.coingecko.model.response.PingResponse
 import com.trp.coingecko.{CoinGeckoAPI, CoinGeckoAPIError, CoinGeckoClient}
@@ -253,16 +253,16 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
 
   }
 
-  override def getExchangeById(id: String): RootInterface = {
-    get[RootInterface](endpoint = s"exchanges/${id}", Map())
+  override def getExchangeById(id: String): Exchange = {
+    get[Exchange](endpoint = s"exchanges/${id}", Map())
 
   }
 
-  override def getExchangeTickersById(id: String): RootInterface = {
+  override def getExchangeTickersById(id: String): Exchange = {
     getExchangeTickersById(id, coin_ids = List.empty, page = None, depth = None, order = None)
   }
 
-  override def getExchangeTickersById(id: String, coin_ids: List[String], page: Option[Int], depth: Option[String], order: Option[String]): RootInterface = {
+  override def getExchangeTickersById(id: String, coin_ids: List[String], page: Option[Int], depth: Option[String], order: Option[String]): Exchange = {
     def buildQuery: Map[String, String] =
       Map(
         "coin_ids" -> coin_ids.reduceLeftOption((left, right) => s"$left,$right"),
@@ -272,7 +272,7 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
       ).filter(kv => kv._2.nonEmpty)
         .map(kv => kv._1 -> kv._2.getOrElse(""))
 
-    get[RootInterface](endpoint = s"exchanges/${id}/tickers", buildQuery)
+    get[Exchange](endpoint = s"exchanges/${id}/tickers", buildQuery)
 
 
   }
@@ -335,7 +335,7 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
    /* ============================================================================= */
 
   /*
-    Index API Requests End
+    Index API Requests Start
   */
 
   override def getMarketIndexes: List[MarketIndex] = {
@@ -353,10 +353,21 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[List[MarketIndex]](endpoint = "indexes",buildQuery)
   }
 
+  override def getMarketIndexList: List[Map[String, String]] = {
+    get[List[Map[String,String]]](endpoint = "indexes/list", Map())
+  }
 
   /*
     Index API Requests End
   */
+
+  /* ============================================================================= */
+
+  /*
+    Derivatives API Requests Start
+  */
+
+
 }
 
 

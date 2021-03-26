@@ -10,7 +10,7 @@ object Tester extends App {
   //  println(client.getSupportedVsCurrencies)
   //  println(client.getCoinMarkets("usd"))
   //  println(client.getCoinsList(false))
-  //  println(client.getExchanges)
+//    println(client.getExchanges)
   //  println(client.getCoinStatusUpdates("cardano", Some(2), Some(2)))
   //  println(client.getCoinTickerById("bitcoin"))
   //  println(client.getCoinMarketChartById("bitcoin", "usd", 1))
@@ -19,12 +19,12 @@ object Tester extends App {
   //  println(client.getCoinHistoryById("bitcoin", "15-03-2021"))
   //  println(client.getCoinOHLC("bitcoin", "usd", 1))
   //  println(client.getFinancePlatforms)
-  //  println(client.getExchangesList)
-  //  println(client.getExchangeById("vitex"))
+//    println(client.getExchangesList)
+    println(client.getExchangeById("vitex"))
   //  println(client.getExchangeTickersById("vitex"))
   //  println(client.getExchangeStatusUpdatesById("binance"))
 //  println(client.getExchangeVolumeChart("binance", 11))
-  println(client.getMarketIndexes(Some(1),Some(2)))
+//  println(client.getMarketIndexList)
 
 }
 

@@ -1,11 +1,11 @@
 package com.trp.coingecko.model.coins
 
-import com.trp.coingecko.model.coins.common.Ticker
+import com.trp.coingecko.model.coins.common.Tickers
 import upickle.default._
 
 case class CoinTicker(
                        name: String,
-                       tickers: List[Ticker]
+                       tickers: List[Tickers]
                      )
 
 

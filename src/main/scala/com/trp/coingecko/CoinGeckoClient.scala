@@ -3,7 +3,7 @@ package com.trp.coingecko
 import com.trp.coingecko.model.coins.{BaseCoin, CoinHistory, CoinMarket, CoinTicker, MarketChart, MarketIndex}
 import com.trp.coingecko.model.coins.CoinPrice.CoinWithCurrencies
 import com.trp.coingecko.model.coins.status.{Status, StatusUpdates}
-import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, RootInterface, VolumeChart}
+import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, VolumeChart}
 import com.trp.coingecko.model.finance.Platform
 import com.trp.coingecko.model.response.PingResponse
 import requests.Response
@@ -113,11 +113,11 @@ trait CoinGeckoClient {
 
   def getExchangesList: List[BaseExchange]
 
-  def getExchangeById(id: String): RootInterface
+  def getExchangeById(id: String): Exchange
 
-  def getExchangeTickersById(id: String): RootInterface
+  def getExchangeTickersById(id: String): Exchange
 
-  def getExchangeTickersById(id: String, coin_ids: List[String], page: Option[Int], depth: Option[String], order: Option[String]): RootInterface
+  def getExchangeTickersById(id: String, coin_ids: List[String], page: Option[Int], depth: Option[String], order: Option[String]): Exchange
 
   def getExchangeStatusUpdatesById(id: String): StatusUpdates
 
@@ -132,4 +132,8 @@ trait CoinGeckoClient {
   def getMarketIndexes: List[MarketIndex]
 
   def getMarketIndexes(perPage: Option[Int], page: Option[Int]): List[MarketIndex]
+
+  def getMarketIndexList: List[Map[String, String]]
+
+//  def getDerivatives
 }
