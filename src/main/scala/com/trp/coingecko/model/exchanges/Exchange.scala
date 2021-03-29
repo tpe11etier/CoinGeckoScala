@@ -1,32 +1,31 @@
 package com.trp.coingecko.model.exchanges
 
 import com.trp.coingecko.model.coins.common.Tickers
-import upickle.default._
-
+import com.trp.coingecko.utils.JSONPickler._
 
 case class Exchange(
-                     id: String,
-                     name: String,
-                     year_established: Int,
-                     country: String,
-                     description: String,
-                     url: String,
-                     image: String,
-                     has_trading_incentive: Boolean,
-                     trade_volume_24h_btc: Double,
-                     facebook_url: Option[String] = Some("None"),
+                     id: Option[String] = None,
+                     name: Option[String] = None,
+                     year_established: Option[Int] = None,
+                     country: Option[String] = None,
+                     description: Option[String] = None,
+                     url: Option[String] = None,
+                     image: Option[String] = None,
+                     has_trading_incentive: Option[Boolean] = None,
+                     trade_volume_24h_btc: Option[Double] = None,
+                     facebook_url: Option[String] = None,
                      reddit_url: Option[String] = None,
                      telegram_url: Option[String] = None,
                      slack_url: Option[String] = None,
                      other_url_1: Option[String] = None,
                      other_url_2: Option[String] = None,
                      twitter_handle: Option[String] = None,
-                     centralized: Boolean = false,
+                     centralized: Option[Boolean] = None,
                      public_notice: Option[String] = None,
                      alert_notice: Option[String] = None,
-                     trust_score: Int,
-                     trust_score_rank: Int,
-                     trade_volume_24h_btc_normalized: Double,
+                     trust_score: Option[Int] = None,
+                     trust_score_rank: Option[Int] = None,
+                     trade_volume_24h_btc_normalized: Option[Double] = None,
                      tickers: List[Tickers] = List.empty
                    )
 

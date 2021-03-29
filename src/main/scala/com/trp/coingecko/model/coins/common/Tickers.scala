@@ -1,7 +1,6 @@
 package com.trp.coingecko.model.coins.common
 
-import upickle.default._
-
+import com.trp.coingecko.utils.JSONPickler._
 
 case class Tickers(
                     base: String,
