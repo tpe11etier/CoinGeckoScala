@@ -21,8 +21,8 @@ object Tester extends App {
   //  println(client.getFinancePlatforms)
 //    println(client.getExchangesList)
     println(client.getExchangeById("vitex"))
-  //  println(client.getExchangeTickersById("vitex"))
-  //  println(client.getExchangeStatusUpdatesById("binance"))
+//    println(client.getExchangeTickersById("vitex"))
+//    println(client.getExchangeStatusUpdatesById("binance"))
 //  println(client.getExchangeVolumeChart("binance", 11))
 //  println(client.getMarketIndexList)
 
