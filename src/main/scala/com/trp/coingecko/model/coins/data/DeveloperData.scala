@@ -1,6 +1,7 @@
 package com.trp.coingecko.model.coins.data
 
-import upickle.default._
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 
 case class DeveloperData(
                           forks: Int,

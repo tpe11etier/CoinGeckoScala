@@ -1,6 +1,7 @@
 package com.trp.coingecko.model.finance
 
-import upickle.default._
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 
 case class Platform(
                      name: String,

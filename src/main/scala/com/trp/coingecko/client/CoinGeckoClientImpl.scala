@@ -7,8 +7,8 @@ import com.trp.coingecko.model.exchanges.{BaseExchange, Exchange, VolumeChart}
 import com.trp.coingecko.model.finance.Platform
 import com.trp.coingecko.model.response.PingResponse
 import com.trp.coingecko.{CoinGeckoAPI, CoinGeckoAPIError, CoinGeckoClient}
-import upickle.default._
-
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 
 class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
   override def ping: PingResponse =
@@ -114,18 +114,15 @@ class CoinGeckoClientImpl(api: CoinGeckoAPI) extends CoinGeckoClient {
     get[List[BaseCoin]](endpoint = "coins/list", Map())
   }
 
-  override def getCoinMarkets(
-                               vsCurrency: String
-                             ): List[CoinMarket] =
-    getCoinMarkets(
-      vsCurrency,
-      ids = List.empty,
-      order = None,
-      perPage = None,
-      page = None,
-      sparkline = None,
-      priceChangePercentage = None
-    )
+  override def getCoinMarkets(vsCurrency: String): List[CoinMarket] = {
+    getCoinMarkets(vsCurrency,
+                   ids = List.empty,
+                   order = Some("market_cap_desc"),
+                   perPage = Some(11),
+                   page = Some(1),
+                   sparkline = Some(false),
+                   priceChangePercentage = Some("24h"))
+  }
 
   override def getCoinMarkets(
                                vsCurrency: String,

@@ -1,6 +1,7 @@
 package com.trp.coingecko.model.coins.status
 
-import upickle.default._
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 
 case class StatusUpdates(
                         status_updates: List[Status]

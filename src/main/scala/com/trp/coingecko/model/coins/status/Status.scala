@@ -1,7 +1,8 @@
 package com.trp.coingecko.model.coins.status
 
 import com.trp.coingecko.model.coins.common.Image
-import upickle.default._
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 
 case class Status(
                    description: String,

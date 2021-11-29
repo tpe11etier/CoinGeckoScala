@@ -1,6 +1,7 @@
 package com.trp.coingecko.model.coins
 
-import upickle.default._
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 import com.trp.coingecko.model.coins.common.Image
 import com.trp.coingecko.model.coins.data.{CommunityData, DeveloperData, MarketData, PublicInterestStats}
 

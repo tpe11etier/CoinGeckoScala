@@ -1,6 +1,7 @@
 package com.trp.coingecko.model.coins.common
 
-import com.trp.coingecko.utils.JSONPickler._
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 
 case class Market(
                    name: String,

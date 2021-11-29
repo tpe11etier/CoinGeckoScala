@@ -1,7 +1,8 @@
 package com.trp.coingecko.model.coins
 
 import com.trp.coingecko.model.coins.common.Tickers
-import upickle.default._
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 
 case class CoinTicker(
                        name: String,

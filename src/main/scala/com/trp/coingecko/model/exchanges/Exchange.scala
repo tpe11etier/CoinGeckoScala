@@ -1,7 +1,8 @@
 package com.trp.coingecko.model.exchanges
 
 import com.trp.coingecko.model.coins.common.Tickers
-import com.trp.coingecko.utils.JSONPickler._
+//import upickle.default._
+import com.trp.coingecko.utils.OptionPickler._
 
 case class Exchange(
                      id: Option[String] = None,
@@ -32,7 +33,6 @@ case class Exchange(
 
 object Exchange {
   implicit val readExchange: ReadWriter[Exchange] = macroRW[Exchange]
-
 }
 
 
